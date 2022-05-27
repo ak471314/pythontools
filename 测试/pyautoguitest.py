@@ -1,11 +1,14 @@
 #! python3
-import pyautogui, sys
+import pyautogui, sys,time
 print('Press Ctrl-C to quit.')
 try:
     while True:
-        x, y = pyautogui.position()
-        positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-        print(positionStr, end='')
-        print('\b' * len(positionStr), end='', flush=True)
+        pyautogui.mouseDown(button='left')
+        time.sleep(4)
+        pyautogui.mouseUp(button='left')
+        #time.sleep(0.1)
+        #pyautogui.keyDown('f')
+        #time.sleep(3)
+        #pyautogui.keyUp('f')
 except KeyboardInterrupt:
     print('\n')
