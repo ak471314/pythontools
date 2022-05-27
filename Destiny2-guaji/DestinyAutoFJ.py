@@ -8,9 +8,6 @@ run_path=os.path.dirname(os.path.realpath(__file__))
 img_path=run_path + '\img'
 print("图片路径",img_path)
 
-equip_count = 9
-xunhuancishu = 1
-
 #定义鼠标操作方法
 def mouseClick(clickTimes,lOrR,img,reTry):
     if reTry == 1:
@@ -49,144 +46,92 @@ def mouseClick(clickTimes,lOrR,img,reTry):
 #查找图片
 def findImage(imgname):
     img_name=os.path.join(img_path,imgname+".png")
-    location = pyautogui.locateCenterOnScreen(img_name)
-    if location is not None:
+    img_point = pyautogui.locateCenterOnScreen(img_name)
+    if img_point is not None:
         return True
 
     return False
 #点击图片
-def clickImgae(imgname,clickTimes=1):
-    print("find lickImgae : ",imgname)
+def clickImgae(imgname):
     img_name=os.path.join(img_path,imgname+".png")
-    location = pyautogui.locateCenterOnScreen(img_name,confidence=0.8)
-    if location is not None:
-        for i in range(clickTimes):
-            pyautogui.moveTo(location.x,location.y)
-            pyautogui.click(location.x,location.y,button="left")
-            print("clickImgae : ",imgname)
-
-        time.sleep(0.5)      
-    #mouseClick(1,"left",img_name,1)
-    
+    mouseClick(1,"left",img_name,3)
         
 #分解装备
 def fenjieEquip():
     pyautogui.keyDown('f')
-    time.sleep(1.6)
+    time.sleep(2)
     pyautogui.keyUp('f')
 
 #获取装备
 def getEquip():
     pyautogui.mouseDown(button='left')
-    time.sleep(3.2)
+    time.sleep(4)
     pyautogui.mouseUp(button='left')
 
 #角色界面
 def jueseSence():
-    if findImage("juese-liang") == False:
+    if findImage("juesejiemian") == False:
         return
     #定位第一件
-    if findImage("zhuangbeitou"):
-        clickImgae("zhuangbeitou")
-        time.sleep(2)
-        pyautogui.move(90, 0)
 
     # 分解装备
     for i in range(5):
         # 分解蓝色装备
-        for i in range(equip_count):
+        for i in range(10):
             fenjieEquip()
-            print("分解装备：",i)
 
         #移动下一位
-        pyautogui.move(-90, 90)
-        pyautogui.move(90, 0)
+        pyautogui.move(100, 0)
+        #
+        pyautogui.move(100, 0)
 
     #进入装备
-    #点击收藏f
-    clickImgae("shoucangpin")
-    time.sleep(1)
+    #点击收藏
+    clickImgae("jaosecandan")
+    time.sleep(2)
     #点击服饰
-    clickImgae("hujia")
-    time.sleep(1)
-    clickImgae("jibie")
-    time.sleep(1)
-    clickImgae("youjiantou")
+    clickImgae("jaosecandan")
+    time.sleep(2)
+    #点击升级
+    clickImgae("jaosecandan")
+    time.sleep(2)
+    #点击
+    clickImgae("jaosecandan")
+    time.sleep(2)
 
 #收藏界面
 def shoucangSence():
-    if findImage("shoucang-hujia") == False:
+    if findImage("shoucang") == False:
         return
 
     #定位第一件装备
-    if findImage("lanzhuangtou"):
-        clickImgae("lanzhuangtou")
 
     # 获取装备
     for i in range(5):
         # 获取蓝色装备
-        for i in range(equip_count):
+        for i in range(20):
             getEquip()
-            print("获取蓝色装备",i)
-            
-        #移动下一位
-        pyautogui.move(75, 0)
+            if findImage("kongjianbuzu"):
+                break
+
+        if findImage("kongjianbuzu"):
+            #移动下一位
+            pyautogui.move(100, 0)
 
     #返回角色
     pyautogui.press('esc')
-    time.sleep(2)
+    time.sleep(3)
     #点击角色
-    clickImgae("juese")
-    time.sleep(1)
-    size=pyautogui.size()
-    pyautogui.moveTo(size.width/2,size.height/2)
-
-    global xunhuancishu
-    xunhuancishu = xunhuancishu + 1
-
-def duihuan():
-    #兑换
-    if findImage("shuzhi") == False:
-        return
-    print("兑换")
-    #定位树脂
-    clickImgae("shuzhi")
-    for i in range(40):
-        pyautogui.click(button="left")
-        time.sleep(1)
-    
-    pyautogui.move(-200, 0)
-    for i in range(10):
-        pyautogui.click(button="left")
-        time.sleep(1)
-    
-    pyautogui.press('f1')
-    time.sleep(1)
-
-    global xunhuancishu
-    xunhuancishu = 1
-
-#买微光
-def buyWei():
-    pyautogui.press('f1')
-    time.sleep(1)
-    pyautogui.press('esc')
-    time.sleep(1)
-    pyautogui.keyDown('e')
+    clickImgae("jaosecandan")
     time.sleep(2)
-    pyautogui.keyUp('e')
-    time.sleep(5)
     
-    duihuan()
+
+
 
 try:
     while True:
-        if xunhuancishu < 6 :
-            jueseSence()
-            shoucangSence()
-            duihuan()
-        else:
-            buyWei()
+        jueseSence()
+        shoucangSence()
 
 except KeyboardInterrupt:
     print('\n')

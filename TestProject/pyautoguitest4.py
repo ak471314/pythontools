@@ -9,21 +9,8 @@ print("运行路径",img_path)
 name = "xuanxiang"
 img_name=os.path.join(img_path,name+".png")
 print("图片路径",img_name)
-size=pyautogui.size()
-print(size.width/2)
-print(size.height/2)
-xunhuancishu = 1
-print(xunhuancishu)
-xunhuancishu = xunhuancishu + 1
-print(xunhuancishu)
-
-
-def test():
-    xunhuancishu = xunhuancishu + 1
-    print(xunhuancishu)
-    
-test()
-
+for i in range(5):
+    print(i)
 try:
     while True:
         img_point = pyautogui.locateCenterOnScreen(img_name)
